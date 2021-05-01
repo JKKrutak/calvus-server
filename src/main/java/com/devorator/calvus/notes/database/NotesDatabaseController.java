@@ -1,22 +1,18 @@
-package com.devorator.calvus.notes.controller;
+package com.devorator.calvus.notes.database;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class NotesController {
+public class NotesDatabaseController implements DatabaseController{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    //@RequestMapping("/notes")
-    String HelloWorld(){
-        return "<h1>HelloWorld</h1>";
-    }
-
-    public void insertNote(){
+    @Override
+    public void insert(){
         String sql = "INSERT INTO notes (note_NAME, creation_DATE, modified, content) VALUES ('Test', '2017-06-05', '2018-02-02', '')";
 
         int result = jdbcTemplate.update(sql);
@@ -24,20 +20,8 @@ public class NotesController {
         if (result > 0) {
             System.out.println("A new row has been inserted.");
         }
+
     }
-
-
-    @RequestMapping("/notes")
-    void postNote()
-    {
-        insertNote();
-    }
-
-
 
 
 }
-
-
-
-

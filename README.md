@@ -1,3 +1,5 @@
+#Calvus devorator
+Simple notes synchronizer.
 #### Table-making query
 ```mysql
 create table notes(
@@ -8,3 +10,11 @@ create table notes(
     PRIMARY KEY (note_ID)
 );
 ```
+---
+#TODO LIST:
+
+- [ ] Implementation NotesDatabaseController.
+- [ ] Json handling.
+- [ ] Everything rest.
+
+
