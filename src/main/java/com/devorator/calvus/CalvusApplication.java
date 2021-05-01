@@ -8,6 +8,7 @@ public class CalvusApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CalvusApplication.class, args);
+
 	}
 
 }
