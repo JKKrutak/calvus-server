@@ -11,7 +11,7 @@ public class NotesController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @RequestMapping("/notes")
+    //@RequestMapping("/notes")
     String HelloWorld(){
         return "<h1>HelloWorld</h1>";
     }
@@ -24,7 +24,7 @@ public class NotesController {
             System.out.println("A new row has been inserted.");
         }
     }
-    @GetMapping(value = "/notes")
+    @RequestMapping("/notes")
     void postNote()
     {
         insertNote();
