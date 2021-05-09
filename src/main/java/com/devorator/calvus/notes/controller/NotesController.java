@@ -23,7 +23,10 @@ public class NotesController {
 
     @GetMapping("/notes")
     void postNote() {
-        databaseController.insert();
+        String json = "{\"name\":\"Thinking in Java\",\"content\":\"I was facing a similar problem today.\"}";
+        int noteId = 5;
+        databaseController.insert(json);
+        databaseController.update(json, noteId);
     }
 }
 
