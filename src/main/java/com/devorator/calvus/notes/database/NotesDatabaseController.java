@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
 
 @Component
 public class NotesDatabaseController implements DatabaseController {
@@ -14,21 +15,42 @@ public class NotesDatabaseController implements DatabaseController {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void insert() {
+    public void insert(String json) {
 
-        String json = "{\"name\":\"Thinking in Java\",\"content\":\"I was facing a similar problem today. It seems, it is not possible to deserialize a JSON-Array to a Java String[] or List when the property to serialize is the JSON root property.\"}";
-
+       // json = "{\"name\":\"Thinking in Java\",\"content\":\"I was facing a similar problem today.\"}";
+        LocalDate todayDate = LocalDate.now();
         try {
             ObjectMapper mapper = new ObjectMapper();
-            //mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);//No idea what that does, stackoverflow told me to paste it here.
             Note note = mapper.readValue(json, Note.class);
-            String sql = "INSERT INTO notes (note_NAME, creation_DATE, modified, content) VALUES ('"+note.getName()+"', '2017-06-05', '2018-02-02', '"+note.getContent()+"')";
+            String sql = "INSERT INTO notes (note_NAME, creation_DATE, modified, content) VALUES ('"+note.getName()+"', '"+todayDate+"', '"+todayDate+"', '"+note.getContent()+"')";
             int result = jdbcTemplate.update(sql);
             if (result > 0) {
                 System.out.println("A new row has been inserted.");
+            } else {
+                System.out.println("A new row has NOT been inserted.");
             }
         }catch(Exception e) {
             System.out.print(e);
         }
+    }
+
+    @Override
+    public void update(String json, int noteId)
+    {
+        LocalDate todayDate = LocalDate.now();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Note note = mapper.readValue(json, Note.class);
+            String sql = "UPDATE notes SET modified = '"+todayDate+"', content = '"+note.getContent()+"' WHERE note_ID = "+noteId+";";
+            int result = jdbcTemplate.update(sql);
+            if (result > 0) {
+                System.out.println("Note with id: "+noteId+" has been edited.");
+            } else {
+                System.out.println("Note with id: "+noteId+" has NOT been edited.");
+            }
+        }catch(Exception e) {
+            System.out.print(e);
+        }
+
     }
 }
